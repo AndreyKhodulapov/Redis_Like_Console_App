@@ -1,6 +1,13 @@
+from logging import getLogger
+
+logger = getLogger(__name__)
+
 class Operator:
     def __init__(self):
         self.__storage = dict()
+
+    def __str__(self):
+        return f"Operator(storage={self.__storage})"
 
     def set(self, variable: str, value: str) -> None:
         self.__storage[variable] = value
@@ -13,6 +20,7 @@ class Operator:
         try:
             del self.__storage[variable]
         except KeyError:
+            logger.error(f"KeyError in 'unset' method with {variable=}")
             pass
 
     def counts(self, search_obj: str) -> int:

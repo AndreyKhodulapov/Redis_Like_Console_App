@@ -1,4 +1,9 @@
+import logging
+from logging import getLogger
+
 from models import Operator
+
+logger = getLogger(__name__)
 
 def controller(model: Operator, command: str, *args) -> str | None:
     commands = {
@@ -15,13 +20,17 @@ def controller(model: Operator, command: str, *args) -> str | None:
         result = method(*args)
         return result
     except Exception as e:
-        print(e)
+        logging.error(f"Error occurred: {type(e)}: {e}")
+        return "Incorrect operation"
 
 def main():
     new_session = Operator()
     while True:
+        logger.debug(f"Actual base condition: {new_session}")
         user_input = input(">")
         command, *args = user_input.split()
+
+        logger.info(f"User entered: {command=}, {args=}")
 
         if command.lower() == "end":
             break
