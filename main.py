@@ -1,4 +1,4 @@
-from logging import getLogger, basicConfig, FileHandler, StreamHandler, ERROR,\
+from logging import getLogger, basicConfig, FileHandler, StreamHandler, ERROR, \
     DEBUG
 
 from controller import main
@@ -10,7 +10,6 @@ file_handler.setLevel(DEBUG)
 console = StreamHandler()
 console.setLevel(ERROR)
 basicConfig(level=DEBUG, format=FORMAT, handlers=[file_handler, console])
-
 
 if __name__ == "__main__":
     logger.info("start app")

@@ -5,6 +5,7 @@ from models import Operator
 
 logger = getLogger(__name__)
 
+
 def controller(model: Operator, command: str, *args) -> str | None:
     commands = {
         "set": model.set,
@@ -25,6 +26,7 @@ def controller(model: Operator, command: str, *args) -> str | None:
     except Exception as e:
         logging.error(f"Error occurred: {type(e)}: {e}")
         return "Incorrect operation"
+
 
 def main():
     new_session = Operator()

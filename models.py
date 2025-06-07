@@ -3,6 +3,7 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 
+
 class Operator:
     def __init__(self):
         self.__storage = dict()
@@ -57,6 +58,3 @@ class Operator:
         if self.__migrations:
             self.__migration_key -= 1
             self.__storage = self.__migrations[self.__migration_key]
-
-
-
