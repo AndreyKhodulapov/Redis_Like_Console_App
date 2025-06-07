@@ -12,6 +12,9 @@ def controller(model: Operator, command: str, *args) -> str | None:
         "unset": model.unset,
         "counts": model.counts,
         "find": model.find,
+        "begin": model.begin,
+        "commit": model.commit,
+        "rollback": model.rollback,
     }
     try:
         method = commands.get(command, "Incorrect operation")
