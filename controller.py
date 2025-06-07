@@ -7,6 +7,17 @@ logger = getLogger(__name__)
 
 
 def controller(model: Operator, command: str, *args) -> str | None:
+    """Осуществляет отклик на команды пользователя.
+        Возвращает результат обращения в базе данных.
+
+    Args:
+        model: экземпляр базы данных.
+        command: команда для базы данных.
+        args: аргументы для выполнения команды.
+
+    Returns:
+        строка с результатом операции или None.
+    """
     commands = {
         "set": model.set,
         "get": model.get,
@@ -28,7 +39,12 @@ def controller(model: Operator, command: str, *args) -> str | None:
         return "Incorrect operation"
 
 
-def main():
+def main() -> None:
+    """Запускает приложение. Принимает и парсит пользовательский ввод.
+        Обеспечивает регистронезависимость команд.
+        Останавливает приложение при введении команды "END".
+
+    """
     new_session = Operator()
     while True:
         logger.debug(f"Actual base condition: {new_session}")
