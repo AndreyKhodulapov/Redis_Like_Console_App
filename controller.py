@@ -1,9 +1,15 @@
-import logging
-from logging import getLogger
+from logging import getLogger, basicConfig, FileHandler, StreamHandler, ERROR, \
+    DEBUG
 
 from models import Operator
 
-logger = getLogger(__name__)
+logger = getLogger()
+FORMAT = '%(asctime)s : %(name)s : %(levelname)s: %(message)s'
+file_handler = FileHandler("data.log")
+file_handler.setLevel(DEBUG)
+console = StreamHandler()
+console.setLevel(ERROR)
+basicConfig(level=DEBUG, format=FORMAT, handlers=[file_handler, console])
 
 
 def controller(model: Operator, command: str, *args) -> str | None:
@@ -35,7 +41,7 @@ def controller(model: Operator, command: str, *args) -> str | None:
         result = method(*args)
         return result
     except Exception as e:
-        logging.error(f"Error occurred: {type(e)}: {e}")
+        logger.error(f"Error occurred: {type(e)}: {e}")
         return "Incorrect operation"
 
 
