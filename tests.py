@@ -9,6 +9,25 @@ def create_model():
     model = Operator()
     return model
 
+@pytest.mark.parametrize(
+    "args",
+    [
+        ("get", "A", "NULL"),
+        ("set", "A", "1", None),
+        ("begin", None),
+        ("set", "A", "2", None),
+        ("begin", None),
+        ("set", "A", "3", None),
+        ("commit", None),
+        ("get", "A", "3"),
+        ("rollback", None),
+        ("get", "A", "1"),
+        ("unset", "A", None),
+    ],
+)
+def test_transaction_correction(create_model, args):
+    command, *arguments, result = args
+    assert controller(create_model, command, *arguments) == result
 
 @pytest.mark.parametrize(
     "args",
@@ -22,27 +41,22 @@ def create_model():
         ("counts", "10", 2),
         ("find", "10", "A, C"),
         ("unset", "A", None),
+        ("unset", "B", None),
+        ("unset", "C", None),
         ("get", "A", "NULL"),
-        ("set", "A", "5", None),
-        ("get", "A", "5"),
+        ("get", "B", "NULL"),
+        ("get", "C", "NULL"),
         ("begin", None),
         ("set", "A", "10", None),
         ("begin", None),
         ("set", "A", "20", None),
+        ("begin", None),
+        ("set", "A", "30", None),
+        ("get", "A", "30"),
+        ("rollback", None),
         ("get", "A", "20"),
-        ("get", "B", "20"),
-        ("unset", "B", None),
-        ("get", "B", "NULL"),
-        ("rollback", None),
-        ("get", "A", "10"),
-        ("get", "B", "20"),
-        ("rollback", None),
-        ("get", "A", "5"),
-        ("set", "A", "40", None),
-        ("set", "B", "50", None),
         ("commit", None),
-        ("get", "A", "40"),
-        ("get", "B", "50"),
+        ("get", "A", "20"),
     ],
 )
 def test_app_positive(create_model, args):
@@ -54,6 +68,7 @@ def test_app_positive(create_model, args):
     "args",
     [
         ("no_key",),
+        ("",),
         ("no_key", "with", "params"),
         ("get",), ("find",),
         ("set",), ("counts",),
