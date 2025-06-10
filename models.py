@@ -109,13 +109,16 @@ class Operator:
     def commit(self) -> None:
         """Сохраняет в базу данных изменения, выполненные в текущей транзакции.
         """
-        self.__migration_key = 0
-        self.__migrations.clear()
+        if self.__migration_key >= 1:
+            self.__migration_key -= 1
+        if self.__migration_key <= 0:
+            self.__migrations.clear()
         logger.info("Transaction has been commited")
 
     def rollback(self) -> None:
         """Откатывает изменения, выполненные в текущей транзакции.
         """
-        if self.__migrations:
+        if self.__migrations and self.__migration_key >= 1:
             self.__migration_key -= 1
             self.__storage = self.__migrations[self.__migration_key]
+            self.__migrations[self.__migration_key] = deepcopy(self.__storage)
