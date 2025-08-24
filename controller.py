@@ -59,9 +59,6 @@ def main() -> None:
 
         logger.info(f"User entered: {command=}, {args=}")
 
-        if command.lower() == "end":
-            break
-
         result = controller(new_session, command.lower(), *args)
         if result is None:
             continue
