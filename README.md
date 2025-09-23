@@ -1,5 +1,4 @@
-#DrWeb test task
-#DrWeb_test_task
+DrWeb test task, DrWeb_test_task
 
 Описание:
 Интерактивное консольное приложение, напоминающее интерфейс in-memory базы
